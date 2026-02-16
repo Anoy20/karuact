@@ -25,15 +25,16 @@
             box-sizing: border-box;
         }
 
+        /* ✅ FIXED SCROLL - html + body */
         html, body {
             height: 100%;
-            overflow: hidden;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Google Sans', 'Inter', 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden; /* BOTH html & body */
         }
 
         body {
             background: var(--sheets-green);
             color: var(--text);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Google Sans', 'Inter', 'Segoe UI', Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -85,12 +86,13 @@
             font-weight: 500;
         }
 
-        /* ===== SPREADSHEET APP LAYOUT ===== */
+        /* ===== SPREADSHEET APP LAYOUT - FIXED SCROLL ===== */
         .app-container {
             display: none;
             height: 100vh;
             flex-direction: column;
             background: var(--sheets-green);
+            overflow: hidden; /* CONTAINER FIXED */
         }
 
         /* Toolbar - Google Sheets Style */
@@ -280,17 +282,36 @@
             letter-spacing: 1px;
         }
 
-        /* Spreadsheet Grid */
+        /* ✅ FIXED MAIN CONTENT SCROLL */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0; /* CRITICAL FOR FLEX SCROLL */
+            overflow: hidden;
+        }
+
+        /* Team Section - Fixed height */
+        .team-section {
+            background: white;
+            border-bottom: 2px solid var(--gray-200);
+            padding: 1.25rem;
+            flex-shrink: 0;
+            max-height: 200px;
+        }
+
+        /* ✅ PERFECT SPREADSHEET SCROLL */
         .spreadsheet-container {
             flex: 1;
             overflow: hidden;
             background: white;
             position: relative;
+            min-height: 0; /* CRITICAL */
         }
 
         .spreadsheet-wrapper {
             height: 100%;
-            overflow: auto;
+            overflow: auto; /* ONLY HERE SCROLL WORKS */
             -webkit-overflow-scrolling: touch;
         }
 
@@ -300,6 +321,7 @@
             font-family: 'SF Mono', Monaco, 'Roboto Mono', monospace;
             font-size: 14px;
             min-width: 900px;
+            table-layout: fixed;
         }
 
         .spreadsheet thead th {
@@ -341,13 +363,13 @@
         }
 
         /* Column widths */
-        .col-date { min-width: 100px; }
-        .col-desc { min-width: 160px; max-width: 200px; }
-        .col-amount { min-width: 110px; text-align: right; font-family: monospace; }
-        .col-type { min-width: 100px; }
-        .col-account { min-width: 130px; }
-        .col-remarks { min-width: 140px; max-width: 200px; }
-        .col-balance { min-width: 120px; text-align: right; font-family: monospace; font-weight: 700; }
+        .col-date { width: 100px; }
+        .col-desc { width: 160px; }
+        .col-amount { width: 110px; text-align: right; font-family: monospace; }
+        .col-type { width: 100px; }
+        .col-account { width: 130px; }
+        .col-remarks { width: 140px; }
+        .col-balance { width: 120px; text-align: right; font-family: monospace; font-weight: 700; }
 
         .amount-negative {
             color: var(--danger) !important;
@@ -406,11 +428,11 @@
             <h1 class="sheets-title">CommonAct Bank</h1>
             <p class="sheets-subtitle">BYLC 50K Grant Spreadsheet</p>
             <input type="password" class="input-field" id="passwordInput" placeholder="🔐 Enter access code">
-            <button class="login-btn sheets-btn" onclick="login()" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Open Spreadsheet</button>
+            <button class="sheets-btn" onclick="login()" style="width: 100%; padding: 1rem; font-size: 1.1rem; background: linear-gradient(135deg, var(--primary), #6EB037); margin-top: 1rem;">Open Spreadsheet</button>
         </div>
     </div>
 
-    <!-- Spreadsheet App -->
+    <!-- ✅ FIXED SPREADSHEET APP -->
     <div class="app-container" id="appContainer">
         <!-- Main Toolbar -->
         <div class="toolbar">
@@ -463,7 +485,7 @@
                     <select class="input-select" id="fromSelect" style="flex: 1;">
                         <option value="Bank">🏦 Main Bank</option>
                     </select>
-                    <span style="align-self: center; font-weight: 600; color: #5f6368;">→</span>
+                    <span style="align-self: center; font-weight: 600; color: #5f6368; padding: 0 0.5rem;">→</span>
                     <select class="input-select" id="toSelect" style="flex: 1;">
                         <option value="Bank">🏦 Main Bank</option>
                     </select>
@@ -494,8 +516,8 @@
             </div>
         </div>
 
-        <!-- Team Accounts -->
-        <div style="background: white; border-bottom: 2px solid var(--gray-200); padding: 1.25rem; flex-shrink: 0;">
+        <!-- Team Section -->
+        <div class="team-section">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200);">
                 <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0;">👥 Team Accounts</h3>
             </div>
@@ -510,23 +532,25 @@
             </div>
         </div>
 
-        <!-- Main Spreadsheet -->
-        <div class="spreadsheet-container">
-            <div class="spreadsheet-wrapper">
-                <table class="spreadsheet">
-                    <thead>
-                        <tr>
-                            <th class="col-date">Date</th>
-                            <th class="col-desc">Description</th>
-                            <th class="col-amount">Amount</th>
-                            <th class="col-type">Type</th>
-                            <th class="col-account">Account</th>
-                            <th class="col-remarks">Remarks</th>
-                            <th class="col-balance">Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sheetBody"></tbody>
-                </table>
+        <!-- ✅ MAIN CONTENT WITH PERFECT SCROLL -->
+        <div class="main-content">
+            <div class="spreadsheet-container">
+                <div class="spreadsheet-wrapper">
+                    <table class="spreadsheet">
+                        <thead>
+                            <tr>
+                                <th class="col-date">Date</th>
+                                <th class="col-desc">Description</th>
+                                <th class="col-amount">Amount</th>
+                                <th class="col-type">Type</th>
+                                <th class="col-account">Account</th>
+                                <th class="col-remarks">Remarks</th>
+                                <th class="col-balance">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheetBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -564,11 +588,12 @@
                 loadData();
                 updateDisplay();
             } else {
-                document.getElementById('passwordInput').style.borderColor = '#ea4335';
-                document.getElementById('passwordInput').style.animation = 'shake 0.5s';
+                const input = document.getElementById('passwordInput');
+                input.style.borderColor = '#ea4335';
+                input.style.animation = 'shake 0.5s';
                 setTimeout(() => {
-                    document.getElementById('passwordInput').style.borderColor = '#dadce0';
-                    document.getElementById('passwordInput').style.animation = '';
+                    input.style.borderColor = '#dadce0';
+                    input.style.animation = '';
                 }, 500);
             }
         }
@@ -648,7 +673,6 @@
                 balances[toKey] = (balances[toKey] || 0) + amount;
             }
 
-            // RECENT FIRST - Always at top
             transactions.unshift(transaction);
             
             document.getElementById('titleInput').value = '';
