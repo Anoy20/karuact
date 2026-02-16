@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommonAct Bank | BYLC 50K Grant SaaS</title>
+    <style>
+        :root {
+            --primary: #84C141;
+            --secondary: #23A8E0;
+            --text: #000000;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-900: #1e293b;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-50);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Login - Perfect Mobile */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .login-container {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .bank-logo { 
+            font-size: clamp(3rem, 8vw, 4.5rem); 
+            margin-bottom: 1.5rem; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text; 
+        }
+        
+        .bank-title { 
+            font-size: clamp(1.75rem, 5vw, 2.25rem); 
+            font-weight: 800; 
+            color: var(--text); 
+            margin-bottom: 0.75rem; 
+        }
+        
+        .bank-subtitle { 
+            color: var(--gray-900); 
+            margin-bottom: 2rem; 
+            font-size: clamp(1rem, 3vw, 1.125rem); 
+            font-weight: 500; 
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: clamp(1rem, 4vw, 1.125rem);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .password-input:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 4px rgba(132, 193, 65, 0.1); 
+            transform: translateY(-2px); 
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, var(--primary), #6EB037);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: clamp(1rem, 4vw, 1.125rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 25px rgba(132, 193, 65, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .login-btn:hover, .login-btn:active { 
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 30px rgba(132, 193, 65, 0.4); 
+        }
+
+        /* Dashboard - Perfect Responsive */
+        .dashboard { 
+            display: none; 
+            height: 100vh; 
+            flex-direction: column; 
+        }
+
+        /* Header - Mobile First */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .user-profile { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            font-weight: 700; 
+            color: var(--primary); 
+            font-size: clamp(0.875rem, 3vw, 1rem); 
+        }
+        
+        .user-avatar {
+            width: clamp(36px, 8vw, 42px); 
+            height: clamp(36px, 8vw, 42px); 
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-weight: 700; 
+            font-size: clamp(0.875rem, 4vw, 1rem);
+        }
+
+        /* Buttons - Touch Friendly */
+        .btn {
+            padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 1.5rem);
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: clamp(0.8rem, 3vw, 0.95rem);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+
+        .btn:hover, .btn:active { 
+            background: var(--primary); 
+            color: white; 
+            transform: translateY(-1px); 
+        }
+        
+        .btn-danger { border-color: var(--danger); color: var(--danger); }
+        .btn-danger:hover, .btn-danger:active { background: var(--danger); }
+        .btn-secondary { border-color: var(--secondary); color: var(--secondary); }
+        .btn-secondary:hover, .btn-secondary:active { background: var(--secondary); color: white; }
+
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Toolbar - Mobile Grid */
+        .toolbar {
+            background: #f8fff8;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .toolbar {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                padding: 1rem;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full { grid-column: 1 / -1; }
+
+        .form-group label {
+            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+            color: var(--gray-900);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: clamp(0.75rem, 3vw, 1rem) 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: clamp(0.875rem, 3.5vw, 1rem);
+            font-weight: 500;
+            transition: all 0.2s;
+            background: white;
+            min-height: 44px;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(132, 193, 65, 0.1);
+        }
+
+        .form-textarea { min-height: 80px; resize: vertical; }
+
+        .expense-source { 
+            display: flex; 
+            gap: 0.5rem; 
+            margin-top: 0.5rem; 
+        }
+        @media (max-width: 480px) {
+            .expense-source { flex-direction: column; }
+        }
+
+        /* Stats - Responsive Grid */
+        .stats {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: clamp(1rem, 4vw, 1.5rem) clamp(1.5rem, 6vw, 2rem);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: clamp(1rem, 4vw, 1.5rem);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .stats { grid-template-columns: 1fr; gap: 1rem; }
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: clamp(1rem, 5vw, 1.5rem);
+            background: var(--gray-50);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .stat-value {
+            font-size: clamp(1.5rem, 7vw, 2.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label { 
+            font-size: clamp(0.7rem, 3vw, 0.85rem); 
+            color: var(--gray-900); 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+
+        /* Team Section */
+        .team-section {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: clamp(1rem, 4vw, 1.5rem) clamp(1.5rem, 6vw, 2rem);
+            flex-shrink: 0;
+        }
+
+        .section-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .section-title { 
+            font-size: clamp(1.1rem, 4vw, 1.25rem); 
+            font-weight: 700; 
+            color: var(--text); 
+        }
+
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .team-grid { flex-direction: column; }
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: clamp(0.75rem, 3vw, 1rem) clamp(1rem, 4vw, 1.25rem);
+            background: var(--gray-50);
+            border-radius: 12px;
+            font-weight: 600;
+            border: 1px solid var(--gray-200);
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .team-member-avatar {
+            width: clamp(28px, 6vw, 32px);
+            height: clamp(28px, 6vw, 32px);
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: clamp(0.75rem, 3.5vw, 0.875rem);
+        }
+
+        .team-add-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding: clamp(0.75rem, 3vw, 1rem) clamp(1rem, 4vw, 1.25rem);
+            background: #f0f9f0;
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .team-add-row:hover, .team-add-row:active { 
+            background: var(--primary); 
+            color: white; 
+            border-color: var(--primary); 
+        }
+
+        /* Google Sheets - Perfect Mobile */
+        .sheet-container { flex: 1; overflow: hidden; background: white; }
+        .sheet-wrapper { height: 100%; overflow: auto; -webkit-overflow-scrolling: touch; }
+        
+        .sheet {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(13px, 3vw, 14px);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .sheet th {
+            background: #e8f0fe !important;
+            border: 1px solid #dadce0;
+            padding: clamp(8px, 2vw, 12px) clamp(8px, 3vw, 10px);
+            text-align: left;
+            font-weight: 600;
+            color: #202124;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            white-space: nowrap;
+            font-size: clamp(11px, 2.5vw, 12px);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .sheet td {
+            border: 1px solid #dadce0;
+            padding: clamp(8px, 2vw, 12px) clamp(6px, 2.5vw, 10px);
+            vertical-align: middle;
+            height: clamp(40px, 8vw, 50px);
+        }
+
+        .sheet tr:nth-child(even) td { background: #f8f9fa; }
+        .sheet tr:hover td { background: #e3f2fd !important; }
+
+        /* Mobile Table Optimizations */
+        @media (max-width: 768px) {
+            .sheet th:nth-child(1), .sheet td:nth-child(1) { min-width: 80px; } /* Date */
+            .sheet th:nth-child(2), .sheet td:nth-child(2) { min-width: 120px; } /* Description */
+            .sheet th:nth-child(3), .sheet td:nth-child(3) { min-width: 90px; text-align: right; padding-right: 1rem; } /* Amount */
+            .sheet th:nth-child(4), .sheet td:nth-child(4) { min-width: 80px; } /* Type */
+            .sheet th:nth-child(5), .sheet td:nth-child(5) { min-width: 100px; } /* Account */
+            .sheet th:nth-child(6), .sheet td:nth-child(6) { min-width: 100px; max-width: 150px; } /* Remarks */
+            .sheet th:nth-child(7), .sheet td:nth-child(7) { min-width: 90px; text-align: right; padding-right: 1rem; } /* Balance */
+        }
+
+        .expense { color: var(--danger) !important; font-weight: 800; font-size: clamp(1rem, 4vw, 1.1rem); }
+        .transfer { color: var(--secondary) !important; font-weight: 700; }
+        .balance { font-weight: 700; color: var(--primary) !important; }
+        
+        .status {
+            padding: clamp(3px, 1.5vw, 4px) clamp(8px, 2vw, 12px);
+            border-radius: 12px;
+            font-size: clamp(10px, 2.5vw, 11px);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-expense { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .status-transfer { background: rgba(35,168,224,0.1); color: var(--secondary); }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Safe Area for iPhone */
+        @supports (padding: max(0px)) {
+            .login-screen { padding-bottom: env(safe-area-inset-bottom); }
+            .header { padding-bottom: max(env(safe-area-inset-top), 1rem); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="bank-logo">🏦</div>
+            <h1 class="bank-title">CommonAct Bank</h1>
+            <p class="bank-subtitle">BYLC 50K Grant Management</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="Enter access code" autocomplete="off">
+            <button class="login-btn" onclick="login()">Access Sheets</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <header class="header">
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">CA</div>
+                <span id="userName">Loading...</span>
+            </div>
+            <div style="flex: 1;"></div>
+            <button class="btn" onclick="exportCSV()">📊 Export</button>
+            <button class="btn btn-danger" onclick="clearAll()">Reset</button>
+            <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        </header>
+
+        <div class="main-content">
+            <div class="toolbar">
+                <div class="form-group">
+                    <label>📅 Date</label>
+                    <input type="date" class="form-input" id="dateInput">
+                </div>
+                <div class="form-group">
+                    <label>📝 Description</label>
+                    <input type="text" class="form-input" id="titleInput" placeholder="Payment details">
+                </div>
+                <div class="form-group">
+                    <label>💰 Amount ৳</label>
+                    <input type="number" class="form-input" id="amountInput" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-select" id="typeSelect" onchange="toggleType()">
+                        <option value="expense">💸 Expense</option>
+                        <option value="transfer">💳 Transfer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="expenseSourceGroup" style="display: none;">
+                    <label>From Account</label>
+                    <div class="expense-source">
+                        <select class="form-select" id="expenseFromSelect">
+                            <option value="Bank">🏦 Main Bank</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="transferFields" style="display: none;">
+                    <label>Transfer</label>
+                    <div class="expense-source">
+                        <select class="form-select" id="fromSelect">
+                            <option value="Bank">🏦 Main Bank</option>
+                        </select>
+                        <select class="form-select" id="toSelect">
+                            <option value="Bank">🏦 Main Bank</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="addTransaction()" style="grid-column: span 2; justify-self: start;">
+                    ➕ Add Row
+                </button>
+
+                <div class="form-group full">
+                    <label>📋 Remarks</label>
+                    <textarea class="form-textarea" id="remarkInput" placeholder="Transaction notes..."></textarea>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="remaining">50,000 ৳</div>
+                    <div class="stat-label">Main Balance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="expenses">0 ৳</div>
+                    <div class="stat-label">Expenses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="transfers">0 ৳</div>
+                    <div class="stat-label">Transfers</div>
+                </div>
+            </div>
+
+            <section class="team-section">
+                <div class="section-header">
+                    <h2 class="section-title">👥 Team Accounts</h2>
+                </div>
+                <div class="team-grid" id="teamGrid"></div>
+                <div class="team-add-row" onclick="promptAddTeam()">
+                    ➕ Add New Account Holder
+                </div>
+            </section>
+
+            <div class="sheet-container">
+                <div class="sheet-wrapper">
+                    <table class="sheet">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Account</th>
+                                <th>Remarks</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sheetBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORDS = {
+            'Arik': { name: 'Arik Rahman', avatar: 'AR' },
+            'Rafin': { name: 'Rafin Ahmed', avatar: 'RA' },
+            'CAteam1010@#$': { name: 'CommonAct Treasury', avatar: 'CA' }
+        };
+        
+        let currentUser = null;
+        let teamMembers = ['Bank'];
+        let transactions = [];
+        let balances = { bank: 50000 };
+        let totalExpenses = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('dateInput').valueAsDate = new Date();
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') login();
+            });
+            updateTeamOptions();
+            toggleType();
+        });
+
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            if (PASSWORDS[password]) {
+                currentUser = PASSWORDS[password];
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'flex';
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userAvatar').textContent = currentUser.avatar;
+                loadData();
+                updateDisplay();
+            } else {
+                shakeInput();
+            }
+        }
+
+        function shakeInput() {
+            const input = document.getElementById('passwordInput');
+            input.style.borderColor = 'var(--danger)';
+            input.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                input.style.borderColor = '#e2e8f0';
+                input.style.animation = '';
+            }, 500);
+        }
+
+        function toggleType() {
+            const type = document.getElementById('typeSelect').value;
+            document.getElementById('expenseSourceGroup').style.display = type === 'expense' ? 'block' : 'none';
+            document.getElementById('transferFields').style.display = type === 'transfer' ? 'block' : 'none';
+        }
+
+        function promptAddTeam() {
+            const name = prompt('Enter team member name:');
+            if (name && name.trim() && !teamMembers.includes(name.trim())) {
+                addTeamMember(name.trim());
+            }
+        }
+
+        function addTeamMember(name) {
+            teamMembers.push(name);
+            balances[name.toLowerCase()] = 0;
+            updateTeamDisplay();
+            updateTeamOptions();
+            saveData();
+        }
+
+        function updateTeamOptions() {
+            const allAccounts = ['Bank', ...teamMembers];
+            document.getElementById('expenseFromSelect').innerHTML = allAccounts.map(m => 
+                `<option value="${m}">${m === 'Bank' ? '🏦 Main Bank' : `👤 ${m}`}</option>`
+            ).join('');
+            document.getElementById('fromSelect').innerHTML = allAccounts.map(m => 
+                `<option value="${m}">${m === 'Bank' ? '🏦 Main Bank' : `👤 ${m}`}</option>`
+            ).join('');
+            document.getElementById('toSelect').innerHTML = teamMembers.map(m => 
+                `<option value="${m}">👤 ${m}</option>`
+            ).join('');
+        }
+
+        function addTransaction() {
+            const type = document.getElementById('typeSelect').value;
+            const amount = parseFloat(document.getElementById('amountInput').value);
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter valid amount');
+                return;
+            }
+
+            const transaction = {
+                id: Date.now(),
+                date: document.getElementById('dateInput').value || new Date().toISOString().split('T')[0],
+                title: document.getElementById('titleInput').value || (type === 'expense' ? 'Expense' : 'Transfer'),
+                amount: amount,
+                type: type,
+                remark: document.getElementById('remarkInput').value || '',
+                timestamp: new Date().toLocaleString('en-GB', {timeZone: 'Asia/Dhaka'})
+            };
+
+            if (type === 'expense') {
+                transaction.from = document.getElementById('expenseFromSelect').value;
+                const fromKey = transaction.from.toLowerCase();
+                if ((balances[fromKey] || 0) < amount) {
+                    alert(`❌ Insufficient balance in ${transaction.from}`);
+                    return;
+                }
+                balances[fromKey] = (balances[fromKey] || 0) - amount;
+                totalExpenses += amount;
+            } else {
+                transaction.from = document.getElementById('fromSelect').value;
+                transaction.to = document.getElementById('toSelect').value;
+                const fromKey = transaction.from.toLowerCase();
+                if ((balances[fromKey] || 0) < amount) {
+                    alert(`❌ Insufficient balance in ${transaction.from}`);
+                    return;
+                }
+                balances[fromKey] = (balances[fromKey] || 0) - amount;
+                const toKey = transaction.to.toLowerCase();
+                balances[toKey] = (balances[toKey] || 0) + amount;
+            }
+
+            transactions.unshift(transaction);
+            
+            document.getElementById('titleInput').value = '';
+            document.getElementById('amountInput').value = '';
+            document.getElementById('remarkInput').value = '';
+            
+            saveData();
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const bankBalance = balances.bank || 50000;
+            document.getElementById('remaining').textContent = bankBalance.toLocaleString() + ' ৳';
+            document.getElementById('expenses').textContent = totalExpenses.toLocaleString() + ' ৳';
+            document.getElementById('transfers').textContent = 
+                transactions.filter(t => t.type === 'transfer').reduce((sum, t) => sum + t.amount, 0).toLocaleString() + ' ৳';
+
+            updateTeamDisplay();
+            updateSheet();
+        }
+
+        function updateTeamDisplay() {
+            const teamGrid = document.getElementById('teamGrid');
+            teamGrid.innerHTML = teamMembers.map(member => {
+                const balance = (balances[member.toLowerCase()] || 0).toLocaleString();
+                return `
+                    <div class="team-member">
+                        <div class="team-member-avatar">${member.charAt(0).toUpperCase()}</div>
+                        <span>${member}</span>
+                        <span style="margin-left: auto; font-weight: 700; color: var(--primary);">${balance} ৳</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateSheet() {
+            const tbody = document.getElementById('sheetBody');
+            tbody.innerHTML = transactions.map(t => {
+                const isExpense = t.type === 'expense';
+                const details = isExpense ? t.from : `${t.from} → ${t.to || ''}`;
+                
+                return `
+                    <tr>
+                        <td>${new Date(t.date).toLocaleDateString('bn-BD')}</td>
+                        <td style="font-weight: 500;">${t.title}</td>
+                        <td class="${isExpense ? 'expense' : 'transfer'}">
+                            -${t.amount.toLocaleString()} ৳
+                        </td>
+                        <td><span class="status ${isExpense ? 'status-expense' : 'status-transfer'}">
+                            ${isExpense ? 'EXPENSE' : 'TRANSFER'}
+                        </span></td>
+                        <td style="font-weight: 600;">${details}</td>
+                        <td style="max-width: 200px;" title="${t.remark}">${t.remark || '-'}</td>
+                        <td class="balance">${(balances.bank || 50000).toLocaleString()} ৳</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function saveData() {
+            localStorage.setItem('commonactBank', JSON.stringify({
+                transactions, balances, teamMembers, totalExpenses
+            }));
+        }
+
+        function loadData() {
+            try {
+                const data = JSON.parse(localStorage.getItem('commonactBank') || '{}');
+                transactions = data.transactions || [];
+                balances = data.balences || { bank: 50000 };
+                teamMembers = data.teamMembers || ['Bank'];
+                totalExpenses = data.totalExpenses || 0;
+            } catch(e) {
+                balances = { bank: 50000 };
+                teamMembers = ['Bank'];
+            }
+            updateTeamOptions();
+            updateDisplay();
+        }
+
+        function exportCSV() {
+            const csv = [
+                'Date,Description,Amount,Type,Account,Remarks,Balance',
+                ...transactions.map(t => {
+                    const details = t.type === 'expense' ? t.from : `${t.from} → ${t.to}`;
+                    return `"${t.date}","${t.title}",${t.amount},"${t.type.toUpperCase()}","${details}","${t.remark || ''}",${balances.bank || 50000}`;
+                })
+            ].join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `commonact-ledger-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        function clearAll() {
+            if (confirm('Delete all data?')) {
+                localStorage.removeItem('commonactBank');
+                location.reload();
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+        }
+    </script>
+</body>
+</html>
