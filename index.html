@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CommonAct Management | KaruAct </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CommonAct Bank Spreadsheet | BYLC 50K Grant</title>
     <style>
         :root {
             --primary: #84C141;
@@ -15,6 +15,8 @@
             --gray-900: #1e293b;
             --danger: #ef4444;
             --success: #10b981;
+            --sheets-green: #f1f7f5;
+            --sheets-blue: #e3f2fd;
         }
 
         * {
@@ -23,414 +25,364 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
-            background: var(--gray-50);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Google Sans', 'Inter', 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Login - Perfect Mobile */
+        body {
+            background: var(--sheets-green);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== SPREADSHEET LOGIN ===== */
         .login-screen {
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            align-items: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, #e3f2fd 100%);
         }
 
         .login-container {
             background: white;
-            padding: 2.5rem 2rem;
+            padding: 3rem 2.5rem;
             border-radius: 20px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .bank-logo { 
-            font-size: clamp(3rem, 8vw, 4.5rem); 
-            margin-bottom: 1.5rem; 
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            background-clip: text; 
-        }
-        
-        .bank-title { 
-            font-size: clamp(1.75rem, 5vw, 2.25rem); 
-            font-weight: 800; 
-            color: var(--text); 
-            margin-bottom: 0.75rem; 
-        }
-        
-        .bank-subtitle { 
-            color: var(--gray-900); 
-            margin-bottom: 2rem; 
-            font-size: clamp(1rem, 3vw, 1.125rem); 
-            font-weight: 500; 
-        }
-
-        .password-input {
-            width: 100%;
-            padding: 1.25rem 1.5rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            font-size: clamp(1rem, 4vw, 1.125rem);
+        .sheets-logo {
+            font-size: clamp(4rem, 12vw, 5.5rem);
             margin-bottom: 1.5rem;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sheets-title {
+            font-size: clamp(2rem, 6vw, 2.75rem);
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--text), var(--gray-900));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sheets-subtitle {
+            color: var(--gray-900);
+            font-size: clamp(1.1rem, 4vw, 1.25rem);
+            margin-bottom: 2.5rem;
             font-weight: 500;
         }
 
-        .password-input:focus { 
-            outline: none; 
-            border-color: var(--primary); 
-            box-shadow: 0 0 0 4px rgba(132, 193, 65, 0.1); 
-            transform: translateY(-2px); 
+        /* ===== SPREADSHEET APP LAYOUT ===== */
+        .app-container {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+            background: var(--sheets-green);
         }
 
-        .login-btn {
-            width: 100%;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, var(--primary), #6EB037);
+        /* Toolbar - Google Sheets Style */
+        .toolbar {
+            background: #202124;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .toolbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: clamp(0.85rem, 3vw, 0.95rem);
+            color: #e8eaed;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sheets-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.15);
             color: white;
             border: none;
-            border-radius: 14px;
-            font-size: clamp(1rem, 4vw, 1.125rem);
-            font-weight: 700;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 10px 25px rgba(132, 193, 65, 0.3);
+            transition: all 0.2s;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sheets-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .sheets-btn.danger {
+            background: rgba(239,68,68,0.2);
+        }
+
+        .sheets-btn.danger:hover {
+            background: rgba(239,68,68,0.3);
+        }
+
+        /* Input Toolbar */
+        .input-toolbar {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 1.25rem;
+            display: grid;
+            gap: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        @media (min-width: 480px) {
+            .input-toolbar { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 768px) {
+            .input-toolbar { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #5f6368;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .login-btn:hover, .login-btn:active { 
-            transform: translateY(-2px); 
-            box-shadow: 0 15px 30px rgba(132, 193, 65, 0.4); 
-        }
-
-        /* Dashboard - Perfect Responsive */
-        .dashboard { 
-            display: none; 
-            height: 100vh; 
-            flex-direction: column; 
-        }
-
-        /* Header - Mobile First */
-        .header {
+        .input-field, .input-select {
+            padding: 0.875rem 1rem;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            font-size: 0.95rem;
             background: white;
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            flex-shrink: 0;
-        }
-
-        .user-profile { 
-            display: flex; 
-            align-items: center; 
-            gap: 0.75rem; 
-            font-weight: 700; 
-            color: var(--primary); 
-            font-size: clamp(0.875rem, 3vw, 1rem); 
-        }
-        
-        .user-avatar {
-            width: clamp(36px, 8vw, 42px); 
-            height: clamp(36px, 8vw, 42px); 
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-weight: 700; 
-            font-size: clamp(0.875rem, 4vw, 1rem);
-        }
-
-        /* Buttons - Touch Friendly */
-        .btn {
-            padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 1.5rem);
-            border: 2px solid var(--primary);
-            background: white;
-            color: var(--primary);
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: clamp(0.8rem, 3vw, 0.95rem);
-            cursor: pointer;
             transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            min-height: 44px;
-            touch-action: manipulation;
-        }
-
-        .btn:hover, .btn:active { 
-            background: var(--primary); 
-            color: white; 
-            transform: translateY(-1px); 
-        }
-        
-        .btn-danger { border-color: var(--danger); color: var(--danger); }
-        .btn-danger:hover, .btn-danger:active { background: var(--danger); }
-        .btn-secondary { border-color: var(--secondary); color: var(--secondary); }
-        .btn-secondary:hover, .btn-secondary:active { background: var(--secondary); color: white; }
-
-        /* Main Content */
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-        /* Toolbar - Mobile Grid */
-        .toolbar {
-            background: #f8fff8;
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1.25rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1rem;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-            .toolbar {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-                padding: 1rem;
-            }
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group.full { grid-column: 1 / -1; }
-
-        .form-group label {
-            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
-            color: var(--gray-900);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            padding: clamp(0.75rem, 3vw, 1rem) 1rem;
-            border: 2px solid var(--gray-200);
-            border-radius: 10px;
-            font-size: clamp(0.875rem, 3.5vw, 1rem);
-            font-weight: 500;
-            transition: all 0.2s;
-            background: white;
             min-height: 44px;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
+        .input-field:focus, .input-select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(132, 193, 65, 0.1);
+            box-shadow: 0 0 0 2px rgba(132,193,65,0.2);
         }
 
-        .form-textarea { min-height: 80px; resize: vertical; }
-
-        .expense-source { 
-            display: flex; 
-            gap: 0.5rem; 
-            margin-top: 0.5rem; 
-        }
-        @media (max-width: 480px) {
-            .expense-source { flex-direction: column; }
+        .transfer-row {
+            display: flex;
+            gap: 0.5rem;
         }
 
-        /* Stats - Responsive Grid */
-        .stats {
+        .add-row-btn {
+            grid-column: 1 / -1;
+            @media (min-width: 768px) { grid-column: span 2; }
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), #6EB037);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .add-row-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(132,193,65,0.4);
+        }
+
+        /* Stats Row */
+        .stats-row {
             background: white;
-            border-bottom: 1px solid var(--gray-200);
-            padding: clamp(1rem, 4vw, 1.5rem) clamp(1.5rem, 6vw, 2rem);
+            border-bottom: 2px solid var(--gray-200);
+            padding: 1.25rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: clamp(1rem, 4vw, 1.5rem);
+            gap: 1.5rem;
             flex-shrink: 0;
         }
 
-        @media (max-width: 480px) {
-            .stats { grid-template-columns: 1fr; gap: 1rem; }
+        @media (min-width: 768px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
         }
 
-        .stat-card {
+        .stat-cell {
             text-align: center;
-            padding: clamp(1rem, 5vw, 1.5rem);
-            background: var(--gray-50);
+            padding: 1.5rem 1rem;
+            background: var(--sheets-blue);
             border-radius: 12px;
-            border: 1px solid var(--gray-200);
+            border: 1px solid rgba(132,193,65,0.2);
         }
 
         .stat-value {
-            font-size: clamp(1.5rem, 7vw, 2.5rem);
+            font-size: clamp(1.75rem, 6vw, 3rem);
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
-        .stat-label { 
-            font-size: clamp(0.7rem, 3vw, 0.85rem); 
-            color: var(--gray-900); 
-            font-weight: 600; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
+        .stat-label {
+            font-size: 0.8rem;
+            color: #5f6368;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Team Section */
-        .team-section {
+        /* Spreadsheet Grid */
+        .spreadsheet-container {
+            flex: 1;
+            overflow: hidden;
             background: white;
-            border-bottom: 1px solid var(--gray-200);
-            padding: clamp(1rem, 4vw, 1.5rem) clamp(1.5rem, 6vw, 2rem);
-            flex-shrink: 0;
+            position: relative;
         }
 
-        .section-header { 
-            display: flex; 
-            align-items: center; 
-            gap: 0.75rem; 
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--gray-200);
+        .spreadsheet-wrapper {
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .section-title { 
-            font-size: clamp(1.1rem, 4vw, 1.25rem); 
-            font-weight: 700; 
-            color: var(--text); 
-        }
-
-        .team-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 480px) {
-            .team-grid { flex-direction: column; }
-        }
-
-        .team-member {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: clamp(0.75rem, 3vw, 1rem) clamp(1rem, 4vw, 1.25rem);
-            background: var(--gray-50);
-            border-radius: 12px;
-            font-weight: 600;
-            border: 1px solid var(--gray-200);
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .team-member-avatar {
-            width: clamp(28px, 6vw, 32px);
-            height: clamp(28px, 6vw, 32px);
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: clamp(0.75rem, 3.5vw, 0.875rem);
-        }
-
-        .team-add-row {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            padding: clamp(0.75rem, 3vw, 1rem) clamp(1rem, 4vw, 1.25rem);
-            background: #f0f9f0;
-            border: 2px dashed var(--primary);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
-            flex: 1;
-            min-width: 180px;
-        }
-
-        .team-add-row:hover, .team-add-row:active { 
-            background: var(--primary); 
-            color: white; 
-            border-color: var(--primary); 
-        }
-
-        /* Google Sheets - Perfect Mobile */
-        .sheet-container { flex: 1; overflow: hidden; background: white; }
-        .sheet-wrapper { height: 100%; overflow: auto; -webkit-overflow-scrolling: touch; }
-        
-        .sheet {
+        .spreadsheet {
             width: 100%;
             border-collapse: collapse;
-            font-size: clamp(13px, 3vw, 14px);
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'SF Mono', Monaco, 'Roboto Mono', monospace;
+            font-size: 14px;
+            min-width: 900px;
         }
 
-        .sheet th {
-            background: #e8f0fe !important;
+        .spreadsheet thead th {
+            background: #f8f9fa !important;
             border: 1px solid #dadce0;
-            padding: clamp(8px, 2vw, 12px) clamp(8px, 3vw, 10px);
+            padding: 16px 12px;
             text-align: left;
             font-weight: 600;
             color: #202124;
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100;
             white-space: nowrap;
-            font-size: clamp(11px, 2.5vw, 12px);
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.8px;
+            height: 60px;
         }
 
-        .sheet td {
-            border: 1px solid #dadce0;
-            padding: clamp(8px, 2vw, 12px) clamp(6px, 2.5vw, 10px);
+        .spreadsheet tbody td {
+            border: 1px solid #e8eaed;
+            padding: 16px 12px;
             vertical-align: middle;
-            height: clamp(40px, 8vw, 50px);
+            height: 60px;
+            font-weight: 400;
         }
 
-        .sheet tr:nth-child(even) td { background: #f8f9fa; }
-        .sheet tr:hover td { background: #e3f2fd !important; }
-
-        /* Mobile Table Optimizations */
-        @media (max-width: 768px) {
-            .sheet th:nth-child(1), .sheet td:nth-child(1) { min-width: 80px; } /* Date */
-            .sheet th:nth-child(2), .sheet td:nth-child(2) { min-width: 120px; } /* Description */
-            .sheet th:nth-child(3), .sheet td:nth-child(3) { min-width: 90px; text-align: right; padding-right: 1rem; } /* Amount */
-            .sheet th:nth-child(4), .sheet td:nth-child(4) { min-width: 80px; } /* Type */
-            .sheet th:nth-child(5), .sheet td:nth-child(5) { min-width: 100px; } /* Account */
-            .sheet th:nth-child(6), .sheet td:nth-child(6) { min-width: 100px; max-width: 150px; } /* Remarks */
-            .sheet th:nth-child(7), .sheet td:nth-child(7) { min-width: 90px; text-align: right; padding-right: 1rem; } /* Balance */
+        .spreadsheet tbody tr {
+            border-bottom: 1px solid #f1f3f4;
         }
 
-        .expense { color: var(--danger) !important; font-weight: 800; font-size: clamp(1rem, 4vw, 1.1rem); }
-        .transfer { color: var(--secondary) !important; font-weight: 700; }
-        .balance { font-weight: 700; color: var(--primary) !important; }
-        
-        .status {
-            padding: clamp(3px, 1.5vw, 4px) clamp(8px, 2vw, 12px);
-            border-radius: 12px;
-            font-size: clamp(10px, 2.5vw, 11px);
+        .spreadsheet tbody tr:nth-child(even) {
+            background: #fafbfb;
+        }
+
+        .spreadsheet tbody tr:hover {
+            background: var(--sheets-blue) !important;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Column widths */
+        .col-date { min-width: 100px; }
+        .col-desc { min-width: 160px; max-width: 200px; }
+        .col-amount { min-width: 110px; text-align: right; font-family: monospace; }
+        .col-type { min-width: 100px; }
+        .col-account { min-width: 130px; }
+        .col-remarks { min-width: 140px; max-width: 200px; }
+        .col-balance { min-width: 120px; text-align: right; font-family: monospace; font-weight: 700; }
+
+        .amount-negative {
+            color: var(--danger) !important;
+            font-weight: 700;
+        }
+
+        .amount-transfer {
+            color: var(--secondary) !important;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .status-expense { background: rgba(239,68,68,0.1); color: var(--danger); }
-        .status-transfer { background: rgba(35,168,224,0.1); color: var(--secondary); }
+
+        .status-expense {
+            background: rgba(239,68,68,0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+
+        .status-transfer {
+            background: rgba(35,168,224,0.15);
+            color: var(--secondary);
+            border: 1px solid rgba(35,168,224,0.3);
+        }
+
+        .balance-positive {
+            color: var(--primary) !important;
+        }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -438,141 +390,151 @@
             75% { transform: translateX(5px); }
         }
 
-        /* Safe Area for iPhone */
-        @supports (padding: max(0px)) {
-            .login-screen { padding-bottom: env(safe-area-inset-bottom); }
-            .header { padding-bottom: max(env(safe-area-inset-top), 1rem); }
+        @media (max-width: 768px) {
+            .input-toolbar { grid-template-columns: 1fr !important; }
+            .stats-row { grid-template-columns: 1fr !important; }
+            .spreadsheet { font-size: 13px; }
+            .spreadsheet thead th, .spreadsheet tbody td { padding: 12px 8px; }
         }
     </style>
 </head>
 <body>
-    <!-- Login -->
+    <!-- Spreadsheet Login -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
-            <div class="bank-logo">🏦</div>
-            <h1 class="bank-title">CommonAct Bank</h1>
-            <p class="bank-subtitle">BYLC KaruAct fund Management</p>
-            <input type="password" class="password-input" id="passwordInput" placeholder="Enter access code" autocomplete="off">
-            <button class="login-btn" onclick="login()">Access Sheets</button>
+            <div class="sheets-logo">📊</div>
+            <h1 class="sheets-title">CommonAct Bank</h1>
+            <p class="sheets-subtitle">BYLC 50K Grant Spreadsheet</p>
+            <input type="password" class="input-field" id="passwordInput" placeholder="🔐 Enter access code">
+            <button class="login-btn sheets-btn" onclick="login()" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Open Spreadsheet</button>
         </div>
     </div>
 
-    <!-- Dashboard -->
-    <div class="dashboard" id="dashboard">
-        <header class="header">
-            <div class="user-profile">
-                <div class="user-avatar" id="userAvatar">CA</div>
-                <span id="userName">Loading...</span>
+    <!-- Spreadsheet App -->
+    <div class="app-container" id="appContainer">
+        <!-- Main Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <span style="font-size: 1.1rem;">🏦 CommonAct Ledger</span>
+                <div class="toolbar-user" id="toolbarUser">
+                    <div class="user-avatar" id="userAvatar">CA</div>
+                    <span id="userName">Loading...</span>
+                </div>
             </div>
-            <div style="flex: 1;"></div>
-            <button class="btn" onclick="exportCSV()">📊 Export</button>
-            <button class="btn btn-danger" onclick="clearAll()">Reset</button>
-            <button class="btn btn-secondary" onclick="logout()">Logout</button>
-        </header>
+            <div class="toolbar-right">
+                <button class="sheets-btn" onclick="exportCSV()">📥 Download CSV</button>
+                <button class="sheets-btn danger" onclick="clearAll()">🗑️ Clear All</button>
+                <button class="sheets-btn" onclick="logout()">🚪 Sign Out</button>
+            </div>
+        </div>
 
-        <div class="main-content">
-            <div class="toolbar">
-                <div class="form-group">
-                    <label>📅 Date</label>
-                    <input type="date" class="form-input" id="dateInput">
-                </div>
-                <div class="form-group">
-                    <label>📝 Description</label>
-                    <input type="text" class="form-input" id="titleInput" placeholder="Payment details">
-                </div>
-                <div class="form-group">
-                    <label>💰 Amount ৳</label>
-                    <input type="number" class="form-input" id="amountInput" min="0" step="0.01">
-                </div>
-                <div class="form-group">
-                    <label>Type</label>
-                    <select class="form-select" id="typeSelect" onchange="toggleType()">
-                        <option value="expense">💸 Expense</option>
-                        <option value="transfer">💳 Transfer</option>
+        <!-- Input Toolbar -->
+        <div class="input-toolbar">
+            <div class="input-group">
+                <label class="input-label">📅 Date</label>
+                <input type="date" class="input-field" id="dateInput">
+            </div>
+            <div class="input-group">
+                <label class="input-label">📝 Description</label>
+                <input type="text" class="input-field" id="titleInput" placeholder="Enter description">
+            </div>
+            <div class="input-group">
+                <label class="input-label">💰 Amount (৳)</label>
+                <input type="number" class="input-field" id="amountInput" min="0" step="0.01" placeholder="0">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Type</label>
+                <select class="input-select" id="typeSelect" onchange="toggleType()">
+                    <option value="expense">💸 Expense</option>
+                    <option value="transfer">💳 Transfer</option>
+                </select>
+            </div>
+            
+            <div class="input-group" id="expenseSourceGroup" style="display: none;">
+                <label class="input-label">From Account</label>
+                <select class="input-select" id="expenseFromSelect">
+                    <option value="Bank">🏦 Main Bank</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="transferFields" style="display: none;">
+                <label class="input-label">Transfer</label>
+                <div class="transfer-row">
+                    <select class="input-select" id="fromSelect" style="flex: 1;">
+                        <option value="Bank">🏦 Main Bank</option>
+                    </select>
+                    <span style="align-self: center; font-weight: 600; color: #5f6368;">→</span>
+                    <select class="input-select" id="toSelect" style="flex: 1;">
+                        <option value="Bank">🏦 Main Bank</option>
                     </select>
                 </div>
-                
-                <div class="form-group" id="expenseSourceGroup" style="display: none;">
-                    <label>From Account</label>
-                    <div class="expense-source">
-                        <select class="form-select" id="expenseFromSelect">
-                            <option value="Bank">🏦 Main Bank</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group" id="transferFields" style="display: none;">
-                    <label>Transfer</label>
-                    <div class="expense-source">
-                        <select class="form-select" id="fromSelect">
-                            <option value="Bank">🏦 Main Bank</option>
-                        </select>
-                        <select class="form-select" id="toSelect">
-                            <option value="Bank">🏦 Main Bank</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button class="btn" onclick="addTransaction()" style="grid-column: span 2; justify-self: start;">
-                    ➕ Add Row
-                </button>
-
-                <div class="form-group full">
-                    <label>📋 Remarks</label>
-                    <textarea class="form-textarea" id="remarkInput" placeholder="Transaction notes..."></textarea>
-                </div>
             </div>
 
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-value" id="remaining">50,000 ৳</div>
-                    <div class="stat-label">Main Balance</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="expenses">0 ৳</div>
-                    <div class="stat-label">Expenses</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="transfers">0 ৳</div>
-                    <div class="stat-label">Transfers</div>
-                </div>
+            <button class="add-row-btn" onclick="addTransaction()">➕ ADD ROW</button>
+
+            <div class="input-group" style="grid-column: 1 / -1;">
+                <label class="input-label">📋 Remarks</label>
+                <textarea class="input-field" id="remarkInput" placeholder="Optional notes..." rows="2"></textarea>
             </div>
+        </div>
 
-            <section class="team-section">
-                <div class="section-header">
-                    <h2 class="section-title">👥 Team Accounts</h2>
-                </div>
-                <div class="team-grid" id="teamGrid"></div>
-                <div class="team-add-row" onclick="promptAddTeam()">
-                    ➕ Add New Account Holder
-                </div>
-            </section>
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-cell">
+                <div class="stat-value" id="remaining">50,000 ৳</div>
+                <div class="stat-label">Available Balance</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-value" id="expenses">0 ৳</div>
+                <div class="stat-label">Total Expenses</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-value" id="transfers">0 ৳</div>
+                <div class="stat-label">Transfers</div>
+            </div>
+        </div>
 
-            <div class="sheet-container">
-                <div class="sheet-wrapper">
-                    <table class="sheet">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Type</th>
-                                <th>Account</th>
-                                <th>Remarks</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sheetBody"></tbody>
-                    </table>
-                </div>
+        <!-- Team Accounts -->
+        <div style="background: white; border-bottom: 2px solid var(--gray-200); padding: 1.25rem; flex-shrink: 0;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200);">
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0;">👥 Team Accounts</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;" id="teamGrid"></div>
+            <div onclick="promptAddTeam()" style="
+                display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; 
+                background: linear-gradient(135deg, var(--primary), #6EB037); 
+                color: white; border-radius: 12px; cursor: pointer; font-weight: 600;
+                transition: all 0.2s;
+            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                ➕ Add New Account Holder
+            </div>
+        </div>
+
+        <!-- Main Spreadsheet -->
+        <div class="spreadsheet-container">
+            <div class="spreadsheet-wrapper">
+                <table class="spreadsheet">
+                    <thead>
+                        <tr>
+                            <th class="col-date">Date</th>
+                            <th class="col-desc">Description</th>
+                            <th class="col-amount">Amount</th>
+                            <th class="col-type">Type</th>
+                            <th class="col-account">Account</th>
+                            <th class="col-remarks">Remarks</th>
+                            <th class="col-balance">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sheetBody"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <script>
         const PASSWORDS = {
-            'Arik': { name: 'Arik Rahaman Anoy', avatar: 'ARIK' },
-            'Rafin': { name: 'Al Muhaimen Rafin', avatar: 'RAFIN' },
+            'Arik': { name: 'Arik Rahaman', avatar: 'AR' },
+            'Rafin': { name: 'Al Muhaimen Rafin', avatar: 'AMR' },
             'CAteam1010@#$': { name: 'CommonAct Treasury', avatar: 'CA' }
         };
         
@@ -596,24 +558,19 @@
             if (PASSWORDS[password]) {
                 currentUser = PASSWORDS[password];
                 document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'flex';
+                document.getElementById('appContainer').style.display = 'flex';
                 document.getElementById('userName').textContent = currentUser.name;
                 document.getElementById('userAvatar').textContent = currentUser.avatar;
                 loadData();
                 updateDisplay();
             } else {
-                shakeInput();
+                document.getElementById('passwordInput').style.borderColor = '#ea4335';
+                document.getElementById('passwordInput').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.getElementById('passwordInput').style.borderColor = '#dadce0';
+                    document.getElementById('passwordInput').style.animation = '';
+                }, 500);
             }
-        }
-
-        function shakeInput() {
-            const input = document.getElementById('passwordInput');
-            input.style.borderColor = 'var(--danger)';
-            input.style.animation = 'shake 0.5s';
-            setTimeout(() => {
-                input.style.borderColor = '#e2e8f0';
-                input.style.animation = '';
-            }, 500);
         }
 
         function toggleType() {
@@ -691,6 +648,7 @@
                 balances[toKey] = (balances[toKey] || 0) + amount;
             }
 
+            // RECENT FIRST - Always at top
             transactions.unshift(transaction);
             
             document.getElementById('titleInput').value = '';
@@ -713,14 +671,13 @@
         }
 
         function updateTeamDisplay() {
-            const teamGrid = document.getElementById('teamGrid');
-            teamGrid.innerHTML = teamMembers.map(member => {
+            document.getElementById('teamGrid').innerHTML = teamMembers.map(member => {
                 const balance = (balances[member.toLowerCase()] || 0).toLocaleString();
                 return `
-                    <div class="team-member">
-                        <div class="team-member-avatar">${member.charAt(0).toUpperCase()}</div>
-                        <span>${member}</span>
-                        <span style="margin-left: auto; font-weight: 700; color: var(--primary);">${balance} ৳</span>
+                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #e8eaed;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem;">${member.charAt(0).toUpperCase()}</div>
+                        <span style="font-weight: 600;">${member}</span>
+                        <span style="margin-left: auto; font-weight: 700; color: var(--primary); font-family: monospace;">${balance} ৳</span>
                     </div>
                 `;
             }).join('');
@@ -734,17 +691,19 @@
                 
                 return `
                     <tr>
-                        <td>${new Date(t.date).toLocaleDateString('bn-BD')}</td>
-                        <td style="font-weight: 500;">${t.title}</td>
-                        <td class="${isExpense ? 'expense' : 'transfer'}">
+                        <td class="col-date">${new Date(t.date).toLocaleDateString('bn-BD')}</td>
+                        <td class="col-desc" style="font-weight: 500;">${t.title}</td>
+                        <td class="col-amount ${isExpense ? 'amount-negative' : 'amount-transfer'}">
                             -${t.amount.toLocaleString()} ৳
                         </td>
-                        <td><span class="status ${isExpense ? 'status-expense' : 'status-transfer'}">
-                            ${isExpense ? 'EXPENSE' : 'TRANSFER'}
-                        </span></td>
-                        <td style="font-weight: 600;">${details}</td>
-                        <td style="max-width: 200px;" title="${t.remark}">${t.remark || '-'}</td>
-                        <td class="balance">${(balances.bank || 50000).toLocaleString()} ৳</td>
+                        <td class="col-type">
+                            <span class="status-badge ${isExpense ? 'status-expense' : 'status-transfer'}">
+                                ${isExpense ? 'EXPENSE' : 'TRANSFER'}
+                            </span>
+                        </td>
+                        <td class="col-account" style="font-weight: 600;">${details}</td>
+                        <td class="col-remarks" title="${t.remark}">${t.remark || '-'}</td>
+                        <td class="col-balance balance-positive">${(balances.bank || 50000).toLocaleString()} ৳</td>
                     </tr>
                 `;
             }).join('');
@@ -760,7 +719,7 @@
             try {
                 const data = JSON.parse(localStorage.getItem('commonactBank') || '{}');
                 transactions = data.transactions || [];
-                balances = data.balences || { bank: 50000 };
+                balances = data.balances || { bank: 50000 };
                 teamMembers = data.teamMembers || ['Bank'];
                 totalExpenses = data.totalExpenses || 0;
             } catch(e) {
@@ -784,19 +743,19 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `commonact-ledger-${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `CommonAct-Ledger-${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
         }
 
         function clearAll() {
-            if (confirm('Delete all data?')) {
+            if (confirm('⚠️ Delete ALL spreadsheet data? This cannot be undone.')) {
                 localStorage.removeItem('commonactBank');
                 location.reload();
             }
         }
 
         function logout() {
-            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('passwordInput').value = '';
         }
