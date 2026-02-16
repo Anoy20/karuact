@@ -25,7 +25,6 @@
             box-sizing: border-box;
         }
 
-        /* ✅ MOBILE SCROLL FIXED - SIMPLE APPROACH */
         html {
             height: 100%;
         }
@@ -39,10 +38,168 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.6;
-            /* ✅ NO overflow hidden on body */
         }
 
-        /* ===== MOBILE PERFECT LOGIN ===== */
+        /* Receipt Modal - ENHANCED */
+        .receipt-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .receipt-modal.active {
+            display: flex;
+        }
+
+        .receipt-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 550px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .receipt-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .receipt-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .receipt-preview {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .receipt-info {
+            background: var(--sheets-blue);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .receipt-filename {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .receipt-details {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #5f6368;
+        }
+
+        .receipt-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .receipt-btn {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .receipt-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .receipt-btn.remove {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .receipt-btn.remove:hover {
+            background: var(--danger);
+        }
+
+        .receipt-btn.download {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .receipt-btn.download:hover {
+            background: var(--secondary);
+        }
+
+        /* Receipt Badge */
+        .receipt-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .receipt-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .receipt-yes {
+            background: rgba(16,185,129,0.15);
+            color: var(--success);
+            border: 1px solid rgba(16,185,129,0.3);
+        }
+
+        .receipt-no {
+            background: rgba(239,68,68,0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+
+        /* Rest of styles remain same */
         .login-screen {
             min-height: 100vh;
             padding: 2rem 1rem;
@@ -73,7 +230,6 @@
             background-clip: text;
         }
 
-        /* ===== APP CONTAINER - MOBILE SCROLLABLE ===== */
         .app-container {
             display: none;
             min-height: 100vh;
@@ -81,12 +237,6 @@
             background: var(--sheets-green);
         }
 
-        /* FIXED HEADERS */
-        .toolbar, .input-toolbar, .stats-row {
-            flex-shrink: 0;
-        }
-
-        /* Toolbar */
         .toolbar {
             background: #202124;
             padding: 1rem;
@@ -95,297 +245,146 @@
             gap: 1rem;
             color: white;
             font-weight: 500;
+            flex-shrink: 0;
         }
 
-        .toolbar-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex: 1;
-        }
-
-        .toolbar-user {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: clamp(0.9rem, 3vw, 1rem);
-        }
-
+        .toolbar-left { display: flex; align-items: center; gap: 0.75rem; flex: 1; }
+        .toolbar-user { display: flex; align-items: center; gap: 0.5rem; font-size: clamp(0.9rem, 3vw, 1rem); }
         .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem;
         }
-
-        .toolbar-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
+        .toolbar-right { display: flex; align-items: center; gap: 0.5rem; }
         .sheets-btn {
-            padding: 0.75rem 1.25rem;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.75rem 1.25rem; background: rgba(255,255,255,0.15); color: white;
+            border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s; min-height: 44px; display: flex;
+            align-items: center; gap: 0.5rem;
         }
+        .sheets-btn:hover { background: rgba(255,255,255,0.25); }
+        .sheets-btn.danger { background: rgba(239,68,68,0.2); }
+        .sheets-btn.danger:hover { background: rgba(239,68,68,0.3); }
 
-        .sheets-btn:hover {
-            background: rgba(255,255,255,0.25);
-        }
-
-        .sheets-btn.danger {
-            background: rgba(239,68,68,0.2);
-        }
-
-        /* Input Toolbar */
         .input-toolbar {
-            background: white;
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1.5rem;
-            display: grid;
-            gap: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: white; border-bottom: 1px solid var(--gray-200);
+            padding: 1.5rem; display: grid; gap: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
-        @media (min-width: 480px) {
-            .input-toolbar { 
-                grid-template-columns: repeat(2, 1fr); 
-            }
-        }
-        @media (min-width: 768px) {
-            .input-toolbar { 
-                grid-template-columns: repeat(4, 1fr); 
-            }
-        }
+        @media (min-width: 480px) { .input-toolbar { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 768px) { .input-toolbar { grid-template-columns: repeat(4, 1fr); } }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
         .input-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #5f6368;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem; font-weight: 600; color: #5f6368;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-
         .input-field, .input-select {
-            padding: 1rem 1rem;
-            border: 1px solid #dadce0;
-            border-radius: 10px;
-            font-size: 1rem;
-            background: white;
-            transition: all 0.2s;
-            min-height: 48px;
+            padding: 1rem 1rem; border: 1px solid #dadce0; border-radius: 10px;
+            font-size: 1rem; background: white; transition: all 0.2s; min-height: 48px;
         }
-
         .input-field:focus, .input-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(132,193,65,0.2);
+            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(132,193,65,0.2);
         }
-
-        .transfer-row {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
+        .transfer-row { display: flex; gap: 0.75rem; align-items: center; }
         .add-row-btn {
-            grid-column: 1 / -1;
-            @media (min-width: 768px) { grid-column: span 2; }
-            padding: 1.25rem 2rem;
-            background: linear-gradient(135deg, var(--primary), #6EB037);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            grid-column: 1 / -1; padding: 1.25rem 2rem; background: linear-gradient(135deg, var(--primary), #6EB037);
+            color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px;
             min-height: 52px;
         }
 
-        /* Stats */
         .stats-row {
-            background: white;
-            padding: 1.5rem;
-            display: grid;
-            gap: 1rem;
-            border-bottom: 2px solid var(--gray-200);
+            background: white; padding: 1.5rem; display: grid; gap: 1rem;
+            border-bottom: 2px solid var(--gray-200); flex-shrink: 0;
         }
-
-        @media (min-width: 480px) {
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 768px) {
-            .stats-row { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        }
-
-        .stat-cell {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            background: var(--sheets-blue);
-            border-radius: 16px;
-            border: 1px solid rgba(132,193,65,0.2);
-        }
-
+        @media (min-width: 480px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 768px) { .stats-row { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
+        .stat-cell { text-align: center; padding: 1.5rem 1rem; background: var(--sheets-blue); border-radius: 16px; border: 1px solid rgba(132,193,65,0.2); }
         .stat-value {
-            font-size: clamp(1.5rem, 6vw, 2.5rem);
-            font-weight: 800;
+            font-size: clamp(1.5rem, 6vw, 2.5rem); font-weight: 800;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;
         }
 
-        /* ✅ MAIN SCROLLABLE CONTENT */
-        .main-content {
-            flex: 1;
-            min-height: 0;
-        }
-
-        /* Team Section */
         .team-section {
-            background: white;
-            padding: 1.5rem;
-            border-bottom: 2px solid var(--gray-200);
-            max-height: 250px;
-            overflow-y: auto;
+            background: white; padding: 1.5rem; border-bottom: 2px solid var(--gray-200);
+            max-height: 250px; overflow-y: auto; flex-shrink: 0;
         }
+        .team-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200); font-size: 1.25rem; font-weight: 700; }
+        .add-team-btn { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, var(--primary), #6EB037); color: white; border-radius: 12px; cursor: pointer; font-weight: 600; transition: all 0.2s; margin-top: 0.75rem; }
 
-        .team-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--gray-200);
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        /* ✅ SPREADSHEET - FULL HEIGHT SCROLL */
+        .main-content { flex: 1; min-height: 0; }
         .spreadsheet-container {
-            flex: 1;
-            background: white;
-            height: calc(100vh - 400px); /* ✅ MOBILE HEIGHT */
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
+            flex: 1; background: white; height: calc(100vh - 420px);
+            overflow: auto; -webkit-overflow-scrolling: touch;
         }
+        @media (min-height: 800px) { .spreadsheet-container { height: calc(100vh - 320px); } }
+        @media (max-width: 768px) { .spreadsheet-container { height: calc(100vh - 370px) !important; } }
 
-        @media (min-height: 800px) {
-            .spreadsheet-container { 
-                height: calc(100vh - 300px); 
-            }
-        }
-
-        .spreadsheet {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'SF Mono', Monaco, 'Roboto Mono', monospace;
-            font-size: 14px;
-            min-width: 900px;
-            table-layout: fixed;
-        }
-
+        .spreadsheet { width: 100%; border-collapse: collapse; font-family: 'SF Mono', Monaco, 'Roboto Mono', monospace; font-size: 14px; min-width: 1000px; table-layout: fixed; }
         .spreadsheet th {
-            background: #f8f9fa !important;
-            border: 1px solid #dadce0;
-            padding: 16px 12px;
-            text-align: left;
-            font-weight: 600;
-            color: #202124;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            white-space: nowrap;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+            background: #f8f9fa !important; border: 1px solid #dadce0; padding: 16px 12px;
+            text-align: left; font-weight: 600; color: #202124; position: sticky; top: 0; z-index: 10;
+            white-space: nowrap; font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px;
         }
-
-        .spreadsheet td {
-            border: 1px solid #e8eaed;
-            padding: 16px 12px;
-            vertical-align: middle;
-            height: 60px;
-        }
-
+        .spreadsheet td { border: 1px solid #e8eaed; padding: 16px 12px; vertical-align: middle; height: 60px; }
         .spreadsheet tr:nth-child(even) td { background: #fafbfb; }
-        .spreadsheet tr:hover td { 
-            background: var(--sheets-blue) !important; 
-            border-left: 4px solid var(--primary);
-        }
+        .spreadsheet tr:hover td { background: var(--sheets-blue) !important; border-left: 4px solid var(--primary); }
 
-        /* Column widths */
         .col-date { width: 100px; }
         .col-desc { width: 160px; }
         .col-amount { width: 110px; text-align: right; }
         .col-type { width: 100px; }
         .col-account { width: 130px; }
         .col-remarks { width: 140px; }
+        .col-receipt { width: 130px; }
         .col-balance { width: 120px; text-align: right; font-weight: 700; }
 
         .amount-negative { color: var(--danger) !important; font-weight: 700; }
         .amount-transfer { color: var(--secondary) !important; font-weight: 600; }
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .status-expense { 
-            background: rgba(239,68,68,0.15); 
-            color: var(--danger); 
-            border: 1px solid rgba(239,68,68,0.3);
-        }
-        .status-transfer { 
-            background: rgba(35,168,224,0.15); 
-            color: var(--secondary); 
-            border: 1px solid rgba(35,168,224,0.3);
-        }
-
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .status-expense { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+        .status-transfer { background: rgba(35,168,224,0.15); color: var(--secondary); border: 1px solid rgba(35,168,224,0.3); }
         .balance-positive { color: var(--primary) !important; }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        @media (max-width: 768px) {
-            .input-toolbar { grid-template-columns: 1fr !important; }
-            .stats-row { grid-template-columns: 1fr !important; }
-            .spreadsheet-container { height: calc(100vh - 350px) !important; }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
     </style>
 </head>
 <body>
-    <!-- ✅ FULL MOBILE SCROLL -->
+    <!-- ✅ ENHANCED Receipt Modal - VIEW + UPLOAD -->
+    <div class="receipt-modal" id="receiptModal">
+        <div class="receipt-modal-content">
+            <button class="receipt-close" onclick="closeReceiptModal()">×</button>
+            <h3 id="receiptModalTitle" style="margin-bottom: 1rem; color: var(--gray-900);">📷 Receipt</h3>
+            
+            <!-- Receipt Info (when viewing existing) -->
+            <div class="receipt-info" id="receiptInfo">
+                <div class="receipt-filename" id="receiptFilename">-</div>
+                <div class="receipt-details">
+                    <span id="receiptSize">-</span>
+                    <span id="receiptDate">-</span>
+                </div>
+            </div>
+
+            <!-- Receipt Preview -->
+            <img class="receipt-preview" id="receiptPreview" alt="Receipt Preview">
+            
+            <!-- Controls -->
+            <div class="receipt-controls">
+                <input type="file" id="receiptFileInput" accept="image/*,.pdf" style="display: none;">
+                <button class="receipt-btn" id="chooseFileBtn" onclick="document.getElementById('receiptFileInput').click()">📁 Choose File</button>
+                <button class="receipt-btn" id="uploadReceiptBtn" onclick="uploadReceipt()" style="display: none;">✅ Upload</button>
+                <button class="receipt-btn download" id="downloadReceiptBtn" onclick="downloadReceipt()" style="display: none;">💾 Download</button>
+                <button class="receipt-btn remove" id="removeReceiptBtn" onclick="removeReceipt()">🗑️ Remove</button>
+            </div>
+            <p style="color: #5f6368; font-size: 0.9rem; text-align: center;">JPG, PNG, PDF (Max 5MB)</p>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <div class="sheets-logo">📊</div>
@@ -396,7 +395,7 @@
         </div>
     </div>
 
-    <!-- ✅ MOBILE PERFECT APP -->
+    <!-- App (same structure) -->
     <div class="app-container" id="appContainer">
         <div class="toolbar">
             <div class="toolbar-left">
@@ -465,7 +464,7 @@
         <div class="stats-row">
             <div class="stat-cell">
                 <div class="stat-value" id="remaining">50,000 ৳</div>
-                <div class="stat-label">Bank Balance</div>
+                <div class="stat-label">Available Balance</div>
             </div>
             <div class="stat-cell">
                 <div class="stat-value" id="expenses">0 ৳</div>
@@ -494,6 +493,7 @@
                             <th class="col-type">Type</th>
                             <th class="col-account">Account</th>
                             <th class="col-remarks">Remarks</th>
+                            <th class="col-receipt">Receipt</th>
                             <th class="col-balance">Balance</th>
                         </tr>
                     </thead>
@@ -515,16 +515,139 @@
         let transactions = [];
         let balances = { bank: 50000 };
         let totalExpenses = 0;
+        let currentReceiptTransactionId = null;
+        let currentReceiptFile = null;
+        let viewingReceipt = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('dateInput').valueAsDate = new Date();
             document.getElementById('passwordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') login();
             });
+            
+            document.getElementById('receiptFileInput').addEventListener('change', handleReceiptFile);
             updateTeamOptions();
             toggleType();
         });
 
+        function handleReceiptFile(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('❌ File too large! Max 5MB');
+                    return;
+                }
+                currentReceiptFile = file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('receiptPreview').src = e.target.result;
+                    document.getElementById('receiptPreview').style.display = 'block';
+                    document.getElementById('uploadReceiptBtn').style.display = 'block';
+                    document.getElementById('chooseFileBtn').textContent = '📁 Change File';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function openReceiptModal(transactionId) {
+            currentReceiptTransactionId = transactionId;
+            const transaction = transactions.find(t => t.id === transactionId);
+            viewingReceipt = transaction.receipt;
+            
+            // Reset modal
+            document.getElementById('receiptPreview').style.display = 'none';
+            document.getElementById('uploadReceiptBtn').style.display = 'none';
+            document.getElementById('downloadReceiptBtn').style.display = 'none';
+            document.getElementById('removeReceiptBtn').style.display = 'block';
+            document.getElementById('chooseFileBtn').textContent = '📁 Choose File';
+            document.getElementById('receiptFileInput').value = '';
+            currentReceiptFile = null;
+
+            if (viewingReceipt) {
+                // VIEW MODE
+                document.getElementById('receiptModalTitle').textContent = '📷 View Receipt';
+                document.getElementById('receiptPreview').src = viewingReceipt.data;
+                document.getElementById('receiptPreview').style.display = 'block';
+                document.getElementById('receiptInfo').style.display = 'block';
+                document.getElementById('receiptFilename').textContent = viewingReceipt.name;
+                document.getElementById('receiptSize').textContent = formatFileSize(viewingReceipt.size);
+                document.getElementById('receiptDate').textContent = new Date(viewingReceipt.uploadedAt).toLocaleString('bn-BD');
+                document.getElementById('downloadReceiptBtn').style.display = 'block';
+                document.getElementById('chooseFileBtn').style.display = 'none';
+            } else {
+                // UPLOAD MODE
+                document.getElementById('receiptModalTitle').textContent = '📷 Upload Receipt';
+                document.getElementById('receiptInfo').style.display = 'none';
+                document.getElementById('chooseFileBtn').style.display = 'block';
+            }
+
+            document.getElementById('receiptModal').classList.add('active');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+            currentReceiptTransactionId = null;
+            currentReceiptFile = null;
+            viewingReceipt = null;
+        }
+
+        function uploadReceipt() {
+            if (!currentReceiptTransactionId || !currentReceiptFile) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const transaction = transactions.find(t => t.id === currentReceiptTransactionId);
+                if (transaction) {
+                    transaction.receipt = {
+                        name: currentReceiptFile.name,
+                        data: e.target.result,
+                        size: currentReceiptFile.size,
+                        uploadedAt: new Date().toISOString()
+                    };
+                    saveData();
+                    updateSheet();
+                    closeReceiptModal();
+                    alert('✅ Receipt uploaded successfully!');
+                }
+            };
+            reader.readAsDataURL(currentReceiptFile);
+        }
+
+        function downloadReceipt() {
+            if (!viewingReceipt) return;
+            
+            const link = document.createElement('a');
+            link.href = viewingReceipt.data;
+            link.download = viewingReceipt.name;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function removeReceipt() {
+            if (!currentReceiptTransactionId) return;
+            
+            if (confirm('🗑️ Remove this receipt?')) {
+                const transaction = transactions.find(t => t.id === currentReceiptTransactionId);
+                if (transaction) {
+                    transaction.receipt = null;
+                    saveData();
+                    updateSheet();
+                    closeReceiptModal();
+                    alert('✅ Receipt removed!');
+                }
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Rest of the functions remain exactly the same...
         function login() {
             const password = document.getElementById('passwordInput').value;
             if (PASSWORDS[password]) {
@@ -546,7 +669,6 @@
             }
         }
 
-        // Rest of JavaScript remains exactly the same...
         function toggleType() {
             const type = document.getElementById('typeSelect').value;
             document.getElementById('expenseSourceGroup').style.display = type === 'expense' ? 'block' : 'none';
@@ -597,6 +719,7 @@
                 amount: amount,
                 type: type,
                 remark: document.getElementById('remarkInput').value || '',
+                receipt: null
             };
 
             if (type === 'expense') {
@@ -657,6 +780,8 @@
             tbody.innerHTML = transactions.map(t => {
                 const isExpense = t.type === 'expense';
                 const details = isExpense ? t.from : `${t.from} → ${t.to || ''}`;
+                const hasReceipt = t.receipt !== null;
+                
                 return `
                     <tr>
                         <td class="col-date">${new Date(t.date).toLocaleDateString('bn-BD')}</td>
@@ -671,6 +796,12 @@
                         </td>
                         <td class="col-account" style="font-weight: 600;">${details}</td>
                         <td class="col-remarks" title="${t.remark}">${t.remark || '-'}</td>
+                        <td class="col-receipt">
+                            <span class="receipt-badge ${hasReceipt ? 'receipt-yes' : 'receipt-no'}" 
+                                  onclick="openReceiptModal(${t.id})" title="${hasReceipt ? 'View receipt' : 'Upload receipt'}">
+                                ${hasReceipt ? '✅ RECEIPT' : '❌ NO RECEIPT'}
+                            </span>
+                        </td>
                         <td class="col-balance balance-positive">${(balances.bank || 50000).toLocaleString()} ৳</td>
                     </tr>
                 `;
@@ -700,10 +831,11 @@
 
         function exportCSV() {
             const csv = [
-                'Date,Description,Amount,Type,Account,Remarks,Balance',
+                'Date,Description,Amount,Type,Account,Remarks,Receipt,Balance',
                 ...transactions.map(t => {
                     const details = t.type === 'expense' ? t.from : `${t.from} → ${t.to}`;
-                    return `"${t.date}","${t.title}",${t.amount},"${t.type.toUpperCase()}","${details}","${t.remark || ''}",${balances.bank || 50000}`;
+                    const receiptStatus = t.receipt ? 'YES' : 'NO';
+                    return `"${t.date}","${t.title}",${t.amount},"${t.type.toUpperCase()}","${details}","${t.remark || ''}","${receiptStatus}",${balances.bank || 50000}`;
                 })
             ].join('\n');
             const blob = new Blob([csv], { type: 'text/csv' });
