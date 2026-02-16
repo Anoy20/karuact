@@ -25,29 +25,33 @@
             box-sizing: border-box;
         }
 
-        /* ✅ FIXED SCROLL - html + body */
-        html, body {
+        /* ✅ PERFECT SCROLL EVERYWHERE */
+        html {
             height: 100%;
-            overflow: hidden; /* BOTH html & body */
+            overflow: hidden;
         }
 
         body {
+            height: 100vh;
             background: var(--sheets-green);
             color: var(--text);
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Google Sans', 'Inter', 'Segoe UI', Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
         }
 
         /* ===== SPREADSHEET LOGIN ===== */
         .login-screen {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 2rem 1rem;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, #e3f2fd 100%);
+            overflow-y: auto; /* ✅ LOGIN SCROLLS */
+            -webkit-overflow-scrolling: touch;
         }
 
         .login-container {
@@ -86,13 +90,18 @@
             font-weight: 500;
         }
 
-        /* ===== SPREADSHEET APP LAYOUT - FIXED SCROLL ===== */
+        /* ===== MAIN APP - NO OVERLAP SCROLL ===== */
         .app-container {
             display: none;
             height: 100vh;
             flex-direction: column;
             background: var(--sheets-green);
-            overflow: hidden; /* CONTAINER FIXED */
+            overflow: hidden;
+        }
+
+        /* FIXED SECTIONS - NO SCROLL */
+        .toolbar, .input-toolbar, .stats-row, .team-section {
+            flex-shrink: 0;
         }
 
         /* Toolbar - Google Sheets Style */
@@ -104,7 +113,6 @@
             gap: 0.75rem;
             color: white;
             font-weight: 500;
-            flex-shrink: 0;
         }
 
         .toolbar-left {
@@ -176,15 +184,16 @@
             padding: 1rem 1.25rem;
             display: grid;
             gap: 1rem;
-            flex-shrink: 0;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            max-height: 500px; /* ✅ INPUT SCROLL IF NEEDED */
+            overflow-y: auto;
         }
 
         @media (min-width: 480px) {
             .input-toolbar { grid-template-columns: repeat(2, 1fr); }
         }
         @media (min-width: 768px) {
-            .input-toolbar { grid-template-columns: repeat(4, 1fr); }
+            .input-toolbar { grid-template-columns: repeat(4, 1fr); max-height: none; overflow-y: visible; }
         }
 
         .input-group {
@@ -220,11 +229,11 @@
         .transfer-row {
             display: flex;
             gap: 0.5rem;
+            align-items: center;
         }
 
         .add-row-btn {
             grid-column: 1 / -1;
-            @media (min-width: 768px) { grid-column: span 2; }
             padding: 1rem 2rem;
             background: linear-gradient(135deg, var(--primary), #6EB037);
             color: white;
@@ -250,7 +259,6 @@
             padding: 1.25rem;
             display: grid;
             gap: 1.5rem;
-            flex-shrink: 0;
         }
 
         @media (min-width: 768px) {
@@ -282,36 +290,45 @@
             letter-spacing: 1px;
         }
 
-        /* ✅ FIXED MAIN CONTENT SCROLL */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 0; /* CRITICAL FOR FLEX SCROLL */
-            overflow: hidden;
-        }
-
-        /* Team Section - Fixed height */
+        /* Team Section - ✅ SCROLLABLE IF MANY MEMBERS */
         .team-section {
             background: white;
             border-bottom: 2px solid var(--gray-200);
             padding: 1.25rem;
-            flex-shrink: 0;
-            max-height: 200px;
+            max-height: 220px;
+            overflow-y: auto; /* ✅ TEAM SCROLL */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* ✅ PERFECT SPREADSHEET SCROLL */
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+
+        /* ✅ MAIN SCROLL CONTAINER */
+        .main-scroll-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        /* ✅ PERFECT SPREADSHEET SCROLL - NO OVERLAP */
         .spreadsheet-container {
             flex: 1;
-            overflow: hidden;
             background: white;
-            position: relative;
-            min-height: 0; /* CRITICAL */
+            min-height: 0;
         }
 
         .spreadsheet-wrapper {
             height: 100%;
-            overflow: auto; /* ONLY HERE SCROLL WORKS */
+            overflow: auto; /* ✅ ONLY HERE SCROLLS */
             -webkit-overflow-scrolling: touch;
         }
 
@@ -406,6 +423,49 @@
             color: var(--primary) !important;
         }
 
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e8eaed;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .add-team-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, var(--primary), #6EB037);
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .add-team-btn:hover {
+            transform: translateY(-2px);
+        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -421,7 +481,7 @@
     </style>
 </head>
 <body>
-    <!-- Spreadsheet Login -->
+    <!-- ✅ SCROLLABLE LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <div class="sheets-logo">📊</div>
@@ -432,9 +492,9 @@
         </div>
     </div>
 
-    <!-- ✅ FIXED SPREADSHEET APP -->
+    <!-- ✅ PERFECT MULTI-SCROLL APP -->
     <div class="app-container" id="appContainer">
-        <!-- Main Toolbar -->
+        <!-- Fixed Toolbar -->
         <div class="toolbar">
             <div class="toolbar-left">
                 <span style="font-size: 1.1rem;">🏦 CommonAct Ledger</span>
@@ -450,7 +510,7 @@
             </div>
         </div>
 
-        <!-- Input Toolbar -->
+        <!-- ✅ Scrollable Input Toolbar -->
         <div class="input-toolbar">
             <div class="input-group">
                 <label class="input-label">📅 Date</label>
@@ -485,7 +545,7 @@
                     <select class="input-select" id="fromSelect" style="flex: 1;">
                         <option value="Bank">🏦 Main Bank</option>
                     </select>
-                    <span style="align-self: center; font-weight: 600; color: #5f6368; padding: 0 0.5rem;">→</span>
+                    <span style="font-weight: 600; color: #5f6368; padding: 0 0.5rem;">→</span>
                     <select class="input-select" id="toSelect" style="flex: 1;">
                         <option value="Bank">🏦 Main Bank</option>
                     </select>
@@ -500,7 +560,7 @@
             </div>
         </div>
 
-        <!-- Stats Row -->
+        <!-- Fixed Stats -->
         <div class="stats-row">
             <div class="stat-cell">
                 <div class="stat-value" id="remaining">50,000 ৳</div>
@@ -516,24 +576,19 @@
             </div>
         </div>
 
-        <!-- Team Section -->
+        <!-- ✅ Scrollable Team Section -->
         <div class="team-section">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200);">
+            <div class="team-header">
                 <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0;">👥 Team Accounts</h3>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;" id="teamGrid"></div>
-            <div onclick="promptAddTeam()" style="
-                display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; 
-                background: linear-gradient(135deg, var(--primary), #6EB037); 
-                color: white; border-radius: 12px; cursor: pointer; font-weight: 600;
-                transition: all 0.2s;
-            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div id="teamGrid"></div>
+            <div class="add-team-btn" onclick="promptAddTeam()">
                 ➕ Add New Account Holder
             </div>
         </div>
 
-        <!-- ✅ MAIN CONTENT WITH PERFECT SCROLL -->
-        <div class="main-content">
+        <!-- ✅ Main Spreadsheet Scroll -->
+        <div class="main-scroll-container">
             <div class="spreadsheet-container">
                 <div class="spreadsheet-wrapper">
                     <table class="spreadsheet">
@@ -695,11 +750,11 @@
         }
 
         function updateTeamDisplay() {
-            document.getElementById('teamGrid').innerHTML = teamMembers.map(member => {
+            document.getElementById('teamGrid').innerHTML = teamMembers.slice(1).map(member => {
                 const balance = (balances[member.toLowerCase()] || 0).toLocaleString();
                 return `
-                    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; background: #f8f9fa; border-radius: 12px; border: 1px solid #e8eaed;">
-                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem;">${member.charAt(0).toUpperCase()}</div>
+                    <div class="team-member">
+                        <div class="team-avatar">${member.charAt(0).toUpperCase()}</div>
                         <span style="font-weight: 600;">${member}</span>
                         <span style="margin-left: auto; font-weight: 700; color: var(--primary); font-family: monospace;">${balance} ৳</span>
                     </div>
