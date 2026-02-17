@@ -350,7 +350,7 @@
                 updateStatus('🔄', 'Syncing...', 'status-connecting');
                 await loadData();
                 setupRealtimeSync();
-                updateStatus('🟢', 'LIVE Sync', 'status-online');
+                updateStatus('', 'LIVE Sync', 'status-online');
             } catch (error) {
                 console.error('Firebase error:', error);
                 updateStatus('🟡', 'Local Mode', 'status-offline');
